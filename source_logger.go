@@ -5,6 +5,7 @@ import (
 	"github.com/kr/pty"
 	"io"
 	"os"
+	"syscall"
 	"os/exec"
 	"os/signal"
 )
@@ -22,6 +23,7 @@ func main() {
 	// Redirecting the SIGINT or SIGKILL signal to the srcds_linux
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
+	signal.Notify(c, syscall.SIGTERM)
 	go func() {
 		for sig := range c {
 			err := cmd.Process.Signal(sig)
