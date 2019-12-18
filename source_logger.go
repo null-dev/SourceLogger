@@ -40,6 +40,9 @@ func main() {
 		panic(err)
 	}
 
+    // Redirect stdin -> gmod
+    go func() { _, _ = io.Copy(file, os.Stdin) }()
+
 	// Redirecting the output of gmod to the stdout
 	_, err = io.Copy(os.Stdout, file)
 	if err != nil {
